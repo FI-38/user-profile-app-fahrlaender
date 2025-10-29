@@ -5,10 +5,12 @@ import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 
+import UserAppNav from "./components/UserAppNav"
+
+import Login from "./components/Login";
+//import './App.css'
 // import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-// import './App.css'
+
 
 function App() {
   return (
@@ -21,6 +23,7 @@ function App() {
             <Nav className="me-auto">
               <Nav.Link as={NavLink} to="/" end>Home</Nav.Link>
               <Nav.Link as={NavLink} to="/contact">Kontakt</Nav.Link>
+              <Nav.Link as={NavLink} to="/login">Login</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -30,12 +33,13 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
+           <Route path="/login" element={<Login />} />
         </Routes>
-      </Container>
+      </Container> 
     </Router>
   );
 }
-
+export default App
 
 
 
@@ -67,4 +71,4 @@ function App() {
   // )
 
 
-export default App
+
