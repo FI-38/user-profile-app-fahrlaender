@@ -18,7 +18,3 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 // import 'bootstrap/dist/css/coostrap.min.css';
 
 // createRoot(document.getElementById('root')).render(
-//   <StrictMode>
-//     <App />
-//   </StrictMode>,
-// )
