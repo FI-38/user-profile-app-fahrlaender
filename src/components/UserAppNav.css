@@ -1,0 +1,40 @@
+/* === Farbdefinitionen === */
+:root {
+    --navbar-bg: #cccbcb;      
+    --navbar-hover: #f7850d;   
+}
+
+/*=== Navbar Grunddesign ====*/ 
+/* === Navbar Styling === */
+.user-navbar {
+  background-color: var(--navbar-bg) !important;
+  border-bottom: 1px solid #15cc52;
+}
+
+/* === Links in der Navbar === */
+.user-navbar .nav-link {
+  color: #333 !important;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+/* Hover-Effekt und aktive Links*/
+.user-navbar .nav-link:hover,
+.user-navbar .nav-link.active {
+  color: white !important;
+  background-color: var(--navbar-hover) !important;
+  border-radius: 10px;
+  padding: 4px 8px;
+}
+
+/* Marke (Titel) */
+.user-navbar .navbar-brand {
+    font-weight: 450;
+    font-size: x-large;
+    color: #15cc52 !important;
+}
+
+button:hover,
+.btn:hover {
+  background-color: #f32de9;
+}

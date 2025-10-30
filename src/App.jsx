@@ -1,45 +1,50 @@
 import { BrowserRouter as Router, Routes, Route, NavLink } from "react-router-dom";
 import Home from "./components/Home";
 import Contact from "./components/Contact";
+import UserAppNav from "./components/UserAppNav";
 import Container from "react-bootstrap/Container";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-
-import UserAppNav from "./components/UserAppNav"
-
+import { useState} from "react";
+import FakeToggleLoginButton from "./components/FakeToggleLoginButton";
 import Login from "./components/Login";
-//import './App.css'
-// import { useState } from 'react'
+import "./App.css";
+import GeekJoke from "./components/GeekJoke";
+
 
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleToggleLogin = () => {
+    setIsLoggedIn(!isLoggedIn);
+  };
+
   return (
     <Router>
-      <Navbar expand="sm" bg="light" className="mb-4" data-bs-theme="light">
-        <Container>
-          <Navbar.Brand as={NavLink} to="/">User Profile App</Navbar.Brand>
-          <Navbar.Toggle aria-controls="main-nav" />
-          <Navbar.Collapse id="main-nav">
-            <Nav className="me-auto">
-              <Nav.Link as={NavLink} to="/" end>Home</Nav.Link>
-              <Nav.Link as={NavLink} to="/contact">Kontakt</Nav.Link>
-              <Nav.Link as={NavLink} to="/login">Login</Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+      <FakeToggleLoginButton isLoggedIn={isLoggedIn} onToggle={handleToggleLogin} />
+
+      <UserAppNav isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
 
       <Container>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
-           <Route path="/login" element={<Login />} />
+          <Route path="/joke" element={<GeekJoke />} />
+          <Route path="/login" element={<Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+          } />
+          <Route path="/logout" element={<Home />} />
+ 
         </Routes>
       </Container> 
     </Router>
   );
 }
 export default App
+
+
+
+
+
+
 
 
 

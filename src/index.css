@@ -1,8 +1,6 @@
 /* === Grundfarben === */
 :root {
   --bg-color: #b6dee0;       /* hellblau */
-  --navbar-bg: #f2f2f2;      /* hellgrau */
-  --navbar-hover: #ffa94d;   /* orange */
 }
 
 /* === Gesamte Seite === */
@@ -11,28 +9,6 @@ body {
   padding: 0;
   background-color: var(--bg-color);
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-}
-
-/* === Navbar Styling === */
-.navbar {
-  background-color: var(--navbar-bg) !important;
-  border-bottom: 1px solid #ccc;
-}
-
-/* === Links in der Navbar === */
-.navbar .nav-link {
-  color: #333 !important;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-/* Hover-Effekt */
-.navbar .nav-link:hover,
-.navbar .nav-link.active {
-  color: white !important;
-  background-color: var(--navbar-hover) !important;
-  border-radius: 5px;
-  padding: 4px 8px;
 }
 
 /* === Container-Abstände === */
@@ -50,10 +26,6 @@ button,
   transition: 0.3s;
 }
 
-button:hover,
-.btn:hover {
-  background-color: #ff8c00;
-}
 
 
 

@@ -1,8 +1,9 @@
 import { Form, Button, Alert } from 'react-bootstrap';
 import { useState } from 'react';
+import FakeToggleLoginButton from './FakeToggleLoginButton';
  
-function Login() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+function Login() { 
+  
   const [message, setMessage] = useState('');
  
   const handleSubmit = (e) => {
@@ -17,12 +18,16 @@ function Login() {
     setMessage(`Eingeloggt als ${username}`);
     setIsLoggedIn(true);
   };
- 
+
+  
+
   return (
     <div className="mt-4">
 
-     <h3>{isLoggedIn ? 'Willkommen zurück!' : 'Bitte einloggen'}</h3>
- 
+        <FakeToggleLoginButton isLoggedIn={isLoggedIn} onToggle={handleToggleLogin}/>
+
+     <h3>{isLoggedIn ?  'Willkommen zurück!' : 'Bitte einloggen'}</h3>
+
       { message && <Alert variant="success">{message}</Alert> }
 
 
