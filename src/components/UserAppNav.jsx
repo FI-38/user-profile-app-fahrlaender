@@ -18,6 +18,7 @@ function UserAppNav({isLoggedIn, handleLogout}) {
               <Nav.Link as={NavLink} to="/" end>Home</Nav.Link>
               <Nav.Link as={NavLink} to="/contact">Kontakt</Nav.Link>
               <Nav.Link as={NavLink} to="/joke">IT-Witze</Nav.Link>
+              <Nav.Link as={NavLink} to="/profile">Profile</Nav.Link>
               { !isLoggedIn ?
               <>
                 <Nav.Link as={NavLink} to="/login">Login</Nav.Link>
