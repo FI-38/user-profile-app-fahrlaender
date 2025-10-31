@@ -6,7 +6,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import "./UserAppNav.css";
 
 
-function UserAppNav() {
+
+function UserAppNav({isLoggedIn, handleLogout}) {
   return (
     <Navbar expand="sm" bg="light" className="user-navbar mb-4" data-bs-theme="light">
       <Container>
@@ -17,8 +18,12 @@ function UserAppNav() {
               <Nav.Link as={NavLink} to="/" end>Home</Nav.Link>
               <Nav.Link as={NavLink} to="/contact">Kontakt</Nav.Link>
               <Nav.Link as={NavLink} to="/joke">IT-Witze</Nav.Link>
+              <Nav.Link as={NavLink} to ="/register">Restistriren</Nav.Link>
+              { !isLoggedIn ?
                 <Nav.Link as={NavLink} to="/login">Login</Nav.Link>
-                <Nav.Link as={NavLink} to="/logout">Logout</Nav.Link> 
+                :
+                <Nav.Link onClick={handleLogout}>Logout</Nav.Link> 
+              } 
            </Nav>
          </Navbar.Collapse>
       </Container>

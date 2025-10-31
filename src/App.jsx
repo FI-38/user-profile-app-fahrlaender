@@ -8,34 +8,45 @@ import FakeToggleLoginButton from "./components/FakeToggleLoginButton";
 import Login from "./components/Login";
 import "./App.css";
 import GeekJoke from "./components/GeekJoke";
+import { useNavigate } from "react-router-dom";
+import Register from "./components/Register1";
 
 
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   const handleToggleLogin = () => {
     setIsLoggedIn(!isLoggedIn);
   };
+ 
+  const handleLogout = () => {
+      setIsLoggedIn(false);
+      localStorage.removeItem("token");
+      localStorage.removeItem("userId");
+      navigate('/');
+  };
 
   return (
-    <Router>
+    <>
       <FakeToggleLoginButton isLoggedIn={isLoggedIn} onToggle={handleToggleLogin} />
 
-      <UserAppNav isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      <UserAppNav isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
 
       <Container>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/joke" element={<GeekJoke />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
           } />
           <Route path="/logout" element={<Home />} />
  
         </Routes>
       </Container> 
-    </Router>
+    </>
   );
 }
 export default App
