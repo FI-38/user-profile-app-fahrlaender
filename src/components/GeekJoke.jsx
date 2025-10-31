@@ -23,7 +23,7 @@ function GeekJoke() {
   };
 
   return (
-    <div style={{ maxWidth: 600, margin: '2rem auto', padding: '2rem', border: '1px solid #eee', borderRadius: '8px' }}>
+    <div style={{ maxWidth: 900, margin: '2rem auto', padding: '2rem', border: '1px solid #eee', borderRadius: '8px' }}>
       <h2>IT-Witz</h2>
       <button onClick={fetchJoke} disabled={loading} style={{ padding: '0.5rem 1rem', marginBottom: '1rem' }}>
         Neuen Witz laden
