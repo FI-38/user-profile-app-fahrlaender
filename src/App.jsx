@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, NavLink } from "react-router-dom";
 import Home from "./components/Home";
 import Contact from "./components/Contact";
@@ -16,7 +17,19 @@ import Register from "./components/Register1";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
-
+  
+  const [userId, setUserId] = useState();
+  
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      const storedUserId = localStorage.getItem('userId');
+  
+      if (token && storedUserId) {
+        setIsLoggedIn(true);
+        setUserId(storedUserId);
+      }
+    }, []);
+    
   const handleToggleLogin = () => {
     setIsLoggedIn(!isLoggedIn);
   };
