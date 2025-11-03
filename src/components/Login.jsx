@@ -1,51 +1,43 @@
 import { Form, Button, Alert } from 'react-bootstrap';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Login({isLoggedIn, setIsLoggedIn}) { 
   
   const [message, setMessage] = useState('');
- 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   const username = e.target.elements.username.value;
-  //   const password = e.target.elements.password.value;
-  //   e.target.reset(); // Formular zurücksetzen
-
-  //   console.log(username);
-  //   console.log(password);
-
-  //   setMessage(`Eingeloggt als ${username}`);
-  //   setIsLoggedIn(true);
-  // };
-
-  
-const API_BASE = import.meta.env.VITE_API_BASE ?? "";
-
+  const navigate = useNavigate();
 
 const handleSubmit = async (e) => {
   e.preventDefault();
   const username = e.target.elements.username.value;
   const password = e.target.elements.password.value;
-  e.target.reset();
 
-  try {
-    const res = await fetch(`${API_BASE}/api/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({ username, password })
-    });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(data?.error || `Fehler: ${res.status}`);
+   try {
+        const response = await fetch(`${import.meta.env.VITE_API_SERVER_URL}/api/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+        });
 
-    setMessage(`Eingeloggt als ${data.username}`);
-    setIsLoggedIn(true);
-    // Optional: localStorage.setItem('token', data.token);
-  } catch (err) {
-    setMessage(err.message || 'Login fehlgeschlagen');
-  }
-};
-
+        const data = await response.json();
+        if (response.ok) {
+            localStorage.setItem('token', data.token); // Speichert das Token
+            localStorage.setItem('userId', data.userId);  // userId speichern
+            setMessage('Erfolgreich eingeloggt! Sie werden weitergeleitet.');
+            setIsLoggedIn(true);
+            setTimeout(() => {
+                navigate('/');
+            }, 2000);
+        } else {
+            setMessage(data.error || 'Login fehlgeschlagen');
+        }
+    } catch (error) {
+        console.error("Fehler beim Login:", error);
+        setMessage("Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.");
+    }
+  };
 
   return (
     <div className="mt-4">

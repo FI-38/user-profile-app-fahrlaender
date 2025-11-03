@@ -13,39 +13,39 @@ function UserProfile({ isLoggedIn, userId }) {
     bio: "",
   });
 
-    useEffect(() => {
-      const token = localStorage.getItem("token");
-      const fetchProfile = async () => {
-        try {
-          const response = await fetch(
-            `http://ubuntu.mshome.net:3001/api/profile`,
-            {
-              method: "GET",
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-              },
-            }
-          );
-          const data = await response.json();
-          if (response.ok) {
-            setFormData({
-              firstname: data.firstname || "",
-              surname: data.surname || "",
-              bio: data.bio || "",
-            });
-          } else {
-            setMessage(data.error || "Fehler beim Laden des Profils");
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_SERVER_URL}/api/profile`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
           }
-        } catch (error) {
-          console.log(error);
-          setMessage("Fehler beim Abrufen des Profils");
+        );
+        const data = await response.json();
+        if (response.ok) {
+          setFormData({
+            firstname: data.firstname || "",
+            surname: data.surname || "",
+            bio: data.bio || "",
+          });
+        } else {
+          setMessage(data.error || "Fehler beim Laden des Profils");
         }
+      } catch (error) {
+        console.log(error);
+        setMessage("Fehler beim Abrufen des Profils");
+      }
     };
-    
+   
     // Call async method.
     fetchProfile();
-    }, [userId]);
+  }, [userId]);
 
 
   const handleInputChange = (e) => {
@@ -62,7 +62,7 @@ function UserProfile({ isLoggedIn, userId }) {
     console.log(token);
     try {
       const response = await fetch(
-        `http://ubuntu.mshome.net:3001/api/profile`,
+        `${import.meta.env.VITE_API_SERVER_URL}/api/profile`,
         {
           method: "PUT",
           headers: {

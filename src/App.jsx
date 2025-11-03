@@ -9,19 +9,22 @@ import Home from "./components/Home";
 import Contact from "./components/Contact";
 import UserAppNav from "./components/UserAppNav";
 import Container from "react-bootstrap/Container";
-import FakeToggleLoginButton from "./components/FakeToggleLoginButton";
+//import FakeToggleLoginButton from "./components/FakeToggleLoginButton";
 import Login from "./components/Login";
-import "./App.css";
+
 import GeekJoke from "./components/GeekJoke";
 import { useNavigate } from "react-router-dom";
-import Register from "./components/Register1";
+import Register from "./components/Register";
+import UserProfile from "./components/UserProfile";
+
+import "./App.css";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userId, setUserId] = useState();
   const navigate = useNavigate();
 
-  const [userId, setUserId] = useState();
-
+  
   useEffect(() => {
     const token = localStorage.getItem("token");
     const storedUserId = localStorage.getItem("userId");
@@ -45,19 +48,20 @@ function App() {
 
   return (
     <>
-      <FakeToggleLoginButton
-        isLoggedIn={isLoggedIn}
-        onToggle={handleToggleLogin}
-      />
+      <UserAppNav isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} handleLogout={handleToggleLogout} />
 
-      <UserAppNav isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
-
-      <Container>
+      <Container className="pt-5">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/joke" element={<GeekJoke />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/register" element={<Register setIsLoggedIn={setIsLoggedIn}/>} />
+          <Route 
+            path="/profile" 
+            element={
+              <UserProfile isLoggedIn={isLoggedIn} userId={userId}/>
+              } 
+            />
           <Route
             path="/login"
             element={
