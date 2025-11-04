@@ -17,6 +17,8 @@ import { useNavigate } from "react-router-dom";
 import Register from "./components/Register";
 import UserProfile from "./components/UserProfile";
 
+import ImagePreview from './components/ImagePreview';
+
 import "./App.css";
 
 function App() {
@@ -48,7 +50,7 @@ function App() {
 
   return (
     <>
-      <UserAppNav isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} handleLogout={handleToggleLogout} />
+      <UserAppNav isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} handleLogout={handleLogout} />
 
       <Container className="pt-5">
         <Routes>
@@ -71,6 +73,11 @@ function App() {
           <Route path="/logout" element={<Home />} />
         </Routes>
       </Container>
+      
+      <div className='p-3'>
+        <h2>Bildvorschau (Frontend-Only)</h2>
+        <ImagePreview maxWidth={320} />
+      </div> 
     </>
   );
 }

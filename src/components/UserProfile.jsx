@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Container from 'react-bootstrap/Container';
 import { Form, Button, Alert } from 'react-bootstrap';
+import Card from 'react-bootstrap/Card'
 import Nav from 'react-bootstrap/Nav';
 import { Link } from "react-router-dom";
- 
+
  
 function UserProfile({ isLoggedIn, userId }) {
   const [message, setMessage] = useState("");
@@ -12,6 +13,41 @@ function UserProfile({ isLoggedIn, userId }) {
     surname: "",
     bio: "",
   });
+
+  // --- Lokale Bildvorschau (kein Upload) ---
+  const [previewSrc, setPreviewSrc] = useState(null);
+  const [fileName, setFileName] = useState("");
+  const [imageError, setImageError] = useState("");
+
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) {
+      setPreviewSrc(null);
+      setFileName("");
+      setImageError("");
+      return;
+    }
+    if (!file.type.startsWith("image/")) {
+      setPreviewSrc(null);
+      setFileName("");
+      setImageError("Bitte wählen Sie eine Bilddatei (z. B. JPG, PNG oder GIF).");
+      e.target.value = "";
+      return;
+    }
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreviewSrc(reader.result);
+      setFileName(file.name);
+      setImageError("");
+    };
+    reader.onerror = () => {
+      setPreviewSrc(null);
+      setFileName("");
+      setImageError("Die Datei konnte nicht gelesen werden.");
+      e.target.value = "";
+    };
+    reader.readAsDataURL(file);
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -84,6 +120,11 @@ function UserProfile({ isLoggedIn, userId }) {
         surname: "",
         bio: "",
       });
+      // Lokale Bildvorschau explizit bestehen lassen, da kein Upload erfolgt.
+      // Falls man sie beim Speichern ebenfalls leeren möchtest, entkommentiere die folgenden Zeilen:
+      // setPreviewSrc(null);
+      // setFileName("");
+      // setImageError("");
     }
   };
   
@@ -98,8 +139,9 @@ function UserProfile({ isLoggedIn, userId }) {
           </Nav.Link>
         )}
       </h3>
- 
-      {message && <Alert variant="success">{message}</Alert>}
+
+        {/* aria-live, damit Screenreader Statusänderungen mitbekommen */}
+      {message && <Alert variant="success" aria-live="polite">{message}</Alert>}
  
       {isLoggedIn && (
         <Form onSubmit={handleSaveProfile}>
@@ -138,6 +180,47 @@ function UserProfile({ isLoggedIn, userId }) {
               onChange={handleInputChange}
             />
           </Form.Group>
+
+          {/* Lokale Bildvorschau (Frontend-only, kein Upload) */}
+          <Form.Group controlId="profile-image" className="mb-3">
+            <Form.Label className="fw-semibold">Profilbild (lokale Vorschau)</Form.Label>
+            <Form.Control
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              aria-describedby="image-help"
+              size="sm"
+            />
+            <Form.Text id="image-help" className="text-body-secondary">
+              Unterstützt: JPG, PNG, GIF — Vorschau erfolgt lokal im Browser, kein Upload.
+            </Form.Text>
+          </Form.Group>
+
+          {imageError && (
+            <Alert variant="danger" className="py-2 mb-3">
+              {imageError}
+            </Alert>
+          )}
+
+          {previewSrc && (
+            <Card className="shadow-sm border-0 mb-3">
+              <Card.Img
+                variant="top"
+                src={previewSrc}
+                alt={fileName ? `Vorschau von ${fileName}` : "Bildvorschau"}
+                style={{
+                  borderTopLeftRadius: 'var(--bs-border-radius)',
+                  borderTopRightRadius: 'var(--bs-border-radius)'
+                }}
+              />
+              {fileName && (
+                <Card.Body className="py-2">
+                  <Card.Text className="small mb-0 text-body">{fileName}</Card.Text>
+                </Card.Body>
+              )}
+            </Card>
+          )}
+
           <Form.Control type="hidden" name="userId" value={userId} />
           <Button variant="primary" type="submit">
             Speichern
